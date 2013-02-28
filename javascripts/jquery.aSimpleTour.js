@@ -31,7 +31,8 @@
     tooltipColors : {
       background: 'rgba(0, 0, 0, 0.70)',
       color: '#fff'
-    }
+    },
+    endCallback: $.noop()
   };
 
   var options, step, steps;
@@ -85,6 +86,7 @@
       step++;
 
       if (step == steps) {
+        options.endCallback();
         methods.destroy();
       }
       else {
@@ -141,6 +143,10 @@
         $tooltip.show('fast');  
 
         $.scrollTo($tooltip, 400, { offset : -100});
+      }
+      
+      if (typeof stepData.tooltipCallback != 'undefined') {
+        stepData.tooltipCallback();
       }
 
 
@@ -311,6 +317,7 @@
   });
 
   $('#tourEnd').live('click', function() {
+    options.endCallback();
     methods.destroy();
   })
 
